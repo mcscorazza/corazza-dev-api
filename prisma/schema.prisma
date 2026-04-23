@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model Trail {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  order     Int      @default(0)
+  lines     Line[]
+  createdAt DateTime @default(now())
+}
+
+model Line {
+  id      String @id @default(uuid())
+  title   String
+  slug    String
+  order   Int    @default(0)
+  trailId String
+  trail   Trail  @relation(fields: [trailId], references: [id])
+  posts   Post[]
+
+  @@unique([slug, trailId])
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String
+  content   String   @db.Text
+  summary   String?  @db.Text
+  order     Int      @default(0)
+  hash      String
+  lineId    String
+  line      Line     @relation(fields: [lineId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([slug, lineId])
+}
