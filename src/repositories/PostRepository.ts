@@ -30,7 +30,18 @@ export class PostRepository {
   }
 
   async upsertPostWithRelations(data: any) {
-    const { slug, title, content, hash, summary, order, trail, line } = data;
+    const {
+      slug,
+      title,
+      content,
+      hash,
+      summary,
+      coverImage,
+      tags,
+      order,
+      trail,
+      line,
+    } = data;
 
     const trailDoc = await prisma.trail.upsert({
       where: { slug: trail.slug },
@@ -43,15 +54,39 @@ export class PostRepository {
         slug_trailId: { slug: line.slug, trailId: trailDoc.id },
       },
       update: { order: line.order },
-      create: { slug: line.slug, title: line.title, order: line.order, trailId: trailDoc.id },
+      create: {
+        slug: line.slug,
+        title: line.title,
+        order: line.order,
+        trailId: trailDoc.id,
+      },
     });
 
     return prisma.post.upsert({
       where: {
         slug_lineId: { slug: slug, lineId: lineDoc.id },
       },
-      update: { title, content, hash, summary, order, lineId: lineDoc.id },
-      create: { slug, title, content, summary, hash, order, lineId: lineDoc.id },
+      update: {
+        title,
+        content,
+        hash,
+        summary,
+        coverImage,
+        tags,
+        order,
+        lineId: lineDoc.id,
+      },
+      create: {
+        slug,
+        title,
+        content,
+        hash,
+        summary,
+        coverImage,
+        tags,
+        order,
+        lineId: lineDoc.id,
+      },
     });
   }
 }
