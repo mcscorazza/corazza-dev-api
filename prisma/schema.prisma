@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 model Trail {
@@ -28,17 +28,19 @@ model Line {
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  title     String
-  slug      String
-  content   String   @db.Text
-  summary   String?  @db.Text
-  order     Int      @default(0)
-  hash      String
-  lineId    String
-  line      Line     @relation(fields: [lineId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  title      String
+  slug       String
+  content    String   @db.Text
+  summary    String?  @db.Text
+  coverImage String?
+  tags       String?
+  order      Int      @default(0)
+  hash       String
+  lineId     String
+  line       Line     @relation(fields: [lineId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@unique([slug, lineId])
 }
