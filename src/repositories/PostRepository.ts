@@ -41,6 +41,7 @@ export class PostRepository {
       order,
       trail,
       line,
+      color,
     } = data;
 
     const trailDoc = await prisma.trail.upsert({
@@ -58,6 +59,7 @@ export class PostRepository {
         slug: line.slug,
         title: line.title,
         order: line.order,
+        color,
         trailId: trailDoc.id,
       },
     });

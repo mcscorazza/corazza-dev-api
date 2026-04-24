@@ -12,7 +12,11 @@ export class PostService {
   }
 
   async getSpecificPost(trailSlug: string, lineSlug: string, postSlug: string) {
-    const post = await this.postRepository.findSpecific(trailSlug, lineSlug, postSlug);
+    const post = await this.postRepository.findSpecific(
+      trailSlug,
+      lineSlug,
+      postSlug,
+    );
     if (!post) {
       throw new Error("Post não encontrado");
     }
