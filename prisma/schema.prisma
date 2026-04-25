@@ -36,6 +36,8 @@ model Post {
   summary    String?  @db.Text
   coverImage String?
   tags       String?
+  author     String?
+  date       String?
   order      Int      @default(0)
   hash       String
   lineId     String
