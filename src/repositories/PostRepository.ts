@@ -15,7 +15,7 @@ export class PostRepository {
   async findRecent(limit: number) {
     return prisma.post.findMany({
       take: limit,
-      orderBy: { date: "desc" },
+      orderBy: { createdAt: "desc" },
       omit: {
         content: true,
       },
