@@ -16,6 +16,9 @@ export class PostRepository {
     return prisma.post.findMany({
       take: limit,
       orderBy: { date: "desc" },
+      omit: {
+        content: true,
+      },
       include: {
         line: {
           include: { trail: true },
