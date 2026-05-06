@@ -51,7 +51,6 @@ export class PostRepository {
       coverImage,
       tags,
       author,
-      date,
       order,
       date,
       trail,
@@ -92,7 +91,6 @@ export class PostRepository {
         author,
         date,
         order,
-        date,
         lineId: lineDoc.id,
       },
       create: {
@@ -106,7 +104,6 @@ export class PostRepository {
         author,
         date,
         order,
-        date,
         lineId: lineDoc.id,
       },
     });
