@@ -17,13 +17,45 @@ export class PostController {
     }
   }
 
+  async showRecent(req: Request, res: Response) {
+    try {
+      let { limit } = req.params;
+      if (typeof limit != "string") {
+        return res
+          .status(400)
+          .json({ error: "O parâmetro 'limit' deve ser uma string!" });
+      }
+      const parsedLimit = parseInt(limit, 10) || 6;
+      const posts = await this.postService.getRecentPosts(parsedLimit);
+      res.json(posts);
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao buscar posts" });
+    }
+  }
+
   async show(req: Request, res: Response) {
     const { trailSlug, lineSlug, postSlug } = req.params;
-    if (typeof (trailSlug) != "string") { return (res.status(400).json({ error: "O parâmetro 'trailSlug deve ser uma string!" })) }
-    if (typeof (lineSlug) != "string") { return (res.status(400).json({ error: "O parâmetro 'lineSlug deve ser uma string!" })) }
-    if (typeof (postSlug) != "string") { return (res.status(400).json({ error: "O parâmetro 'postSlug deve ser uma string!" })) }
+    if (typeof trailSlug != "string") {
+      return res
+        .status(400)
+        .json({ error: "O parâmetro 'trailSlug deve ser uma string!" });
+    }
+    if (typeof lineSlug != "string") {
+      return res
+        .status(400)
+        .json({ error: "O parâmetro 'lineSlug deve ser uma string!" });
+    }
+    if (typeof postSlug != "string") {
+      return res
+        .status(400)
+        .json({ error: "O parâmetro 'postSlug deve ser uma string!" });
+    }
     try {
-      const post = await this.postService.getSpecificPost(trailSlug, lineSlug, postSlug);
+      const post = await this.postService.getSpecificPost(
+        trailSlug,
+        lineSlug,
+        postSlug,
+      );
       res.json(post);
     } catch (error: any) {
       res.status(404).json({ error: error.message });

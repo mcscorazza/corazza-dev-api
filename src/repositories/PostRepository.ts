@@ -12,6 +12,18 @@ export class PostRepository {
     });
   }
 
+  async findRecent(limit: number) {
+    return prisma.post.findMany({
+      take: limit,
+      orderBy: { date: "desc" },
+      include: {
+        line: {
+          include: { trail: true },
+        },
+      },
+    });
+  }
+
   async findSpecific(trailSlug: string, lineSlug: string, postSlug: string) {
     const line = await prisma.line.findFirst({
       where: { slug: lineSlug, trail: { slug: trailSlug } },
@@ -39,6 +51,7 @@ export class PostRepository {
       coverImage,
       tags,
       order,
+      date,
       trail,
       line,
     } = data;
@@ -75,6 +88,7 @@ export class PostRepository {
         coverImage,
         tags,
         order,
+        date,
         lineId: lineDoc.id,
       },
       create: {
@@ -86,6 +100,7 @@ export class PostRepository {
         coverImage,
         tags,
         order,
+        date,
         lineId: lineDoc.id,
       },
     });

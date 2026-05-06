@@ -11,6 +11,10 @@ export class PostService {
     return await this.postRepository.findAll();
   }
 
+  async getRecentPosts(limit: number) {
+    return await this.postRepository.findRecent(limit);
+  }
+
   async getSpecificPost(trailSlug: string, lineSlug: string, postSlug: string) {
     const post = await this.postRepository.findSpecific(
       trailSlug,
